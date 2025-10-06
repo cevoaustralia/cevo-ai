@@ -1,0 +1,1 @@
+This is a react js site. The project uses best practices for organising files in a directory structure. There are three pages on the site. The home page has a left sidebar that has multiple components. 
