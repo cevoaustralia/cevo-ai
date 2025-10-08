@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import FileUpload from '../FileUpload';
 
-function EnergyAssistant() {
+function Finance() {
   const [message, setMessage] = useState('');
 
   return (
-    <div className="energy-container">
+    <div className="finance-container">
       <div className="chat-box">
         <div className="chat-messages">
-          <div className="message">Hello! How can I help you with your energy needs?</div>
+          <div className="message">Hello! How can I help you with your finance needs?</div>
         </div>
         <div className="chat-input">
           <input 
@@ -26,4 +26,4 @@ function EnergyAssistant() {
   );
 }
 
-export default EnergyAssistant;
+export default Finance;

@@ -1,23 +1,22 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import EnergyAssistant from '../../components/EnergyAssistant';
-import MortgageAssistant from '../../components/MortgageAssistant';
+import Finance from '../../components/Finance';
 
-function Home() {
+function InternalAssistantPage() {
   const location = useLocation();
   
   const renderContent = () => {
-    if (location.pathname === '/energy') return <EnergyAssistant />;
-    if (location.pathname === '/mortgage') return <MortgageAssistant />;
-   
+    if (location.pathname === '/internal_assistant/finance') return <Finance />;
+    return <EnergyAssistant />;
   };
 
   return (
     <div className="main-container">
       <nav className="sidebar">
         <ul>
-          <li><Link to="/energy">Energy Assistant</Link></li>
-          <li><Link to="/mortgage">Mortgage Assistant</Link></li>
+          <li><Link to="/internal_assistant/energy">Energy</Link></li>
+          <li><Link to="/internal_assistant/finance">Finance</Link></li>
         </ul>
       </nav>
       <main className="content">
@@ -27,4 +26,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default InternalAssistantPage;

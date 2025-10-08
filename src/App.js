@@ -2,8 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import logo from './logo.png';
-import Home from './pages/Home';
-import Blog from './pages/Blog';
+import InternalAssistant from './pages/InternalAssistant';
+import ExternalAssistant from './pages/ExternalAssistant';
+import DataInsights from './pages/DataInsights';
 import Contact from './pages/Contact';
 
 function App() {
@@ -13,16 +14,17 @@ function App() {
         <header className="header">
           <img src={logo} alt="Logo" />
           <nav className="header-nav">
-            <Link to="/">Home</Link>
-            <Link to="/blog">Blog</Link>
-            <Link to="/contact">Contact Us</Link>
+            <Link to="/internal_assistant">Internal Assistant</Link>
+            <Link to="/external_assistant">External assistant</Link>
+            <Link to="/data_insights">Data Insights</Link>
           </nav>
         </header>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/energy" element={<Home />} />
-          <Route path="/mortgage" element={<Home />} />
-          <Route path="/blog" element={<div className="content"><Blog /></div>} />
+          <Route path="/internal_assistant" element={<InternalAssistant />} />
+          <Route path="/internal_assistant/energy" element={<InternalAssistant />} />
+          <Route path="/internal_assistant/finance" element={<InternalAssistant />} />
+          <Route path="/external_assistant" element={<ExternalAssistant />} />
+          <Route path="/data_insights" element={<DataInsights />} />
           <Route path="/contact" element={<div className="content"><Contact /></div>} />
         </Routes>
         <footer className="footer">

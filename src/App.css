@@ -134,3 +134,51 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+.energy-container {
+  display: block !important;
+  padding: 2rem;
+  height: 100%;
+  width: 100%;
+}
+
+.energy-container .chat-box,
+.energy-container .file-upload {
+  width: 800px !important;
+  border: 2px solid #2C3E50 !important;
+  border-radius: 8px;
+  background: white !important;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.energy-container .chat-box {
+  height: 300px !important;
+  display: flex !important;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.energy-container .file-upload {
+  padding: 1rem;
+}
+
+.file-upload h3 {
+  margin: 0 0 1rem 0;
+  color: #2C3E50;
+  font-size: 1.2rem;
+}
+
+.file-upload input {
+  margin-right: 1rem;
+  padding: 0.5rem;
+}
+
+.file-upload button {
+  padding: 0.5rem 1rem;
+  background: #2C3E50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
