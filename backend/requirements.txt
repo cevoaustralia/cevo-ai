@@ -5,3 +5,4 @@ langchain-aws
 langgraph
 python-multipart
 boto3
+requests
