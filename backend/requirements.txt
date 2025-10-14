@@ -6,3 +6,5 @@ langgraph
 python-multipart
 boto3
 requests
+flask
+flask-cors

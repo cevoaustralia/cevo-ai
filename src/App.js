@@ -20,6 +20,7 @@ function App() {
           </nav>
         </header>
         <Routes>
+          <Route path="/" element={<InternalAssistant />} />
           <Route path="/internal_assistant" element={<InternalAssistant />} />
           <Route path="/internal_assistant/energy" element={<InternalAssistant />} />
           <Route path="/internal_assistant/finance" element={<InternalAssistant />} />
