@@ -186,6 +186,7 @@ function EnergyAssistant() {
         )}
       </div>
     </div>
+>>>>>>> 95ddde555ae5454b57a3805ddf9237cc51dea0a1
   );
 }
 

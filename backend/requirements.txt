@@ -6,5 +6,13 @@ langgraph
 python-multipart
 boto3
 requests
+<<<<<<< HEAD
+psycopg2-binary
+pydantic
+pytest
+pytest-asyncio
+pytest-cov
+=======
 flask
 flask-cors
+>>>>>>> 95ddde555ae5454b57a3805ddf9237cc51dea0a1

@@ -1,14 +1,33 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import './App.css';
-import logo from './logo.png';
-import InternalAssistant from './pages/InternalAssistant';
-import ExternalAssistant from './pages/ExternalAssistant';
-import DataInsights from './pages/DataInsights';
-import Contact from './pages/Contact';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { SnackbarProvider } from 'notistack';
+
+import { lightTheme } from './theme';
+import AppRoutes from './AppRoutes';
+import { ErrorBoundary, Notifications } from './components/shared';
+import { queryClient } from './lib/queryClient';
 
 function App() {
   return (
+<<<<<<< HEAD
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={lightTheme}>
+          <CssBaseline />
+          <SnackbarProvider maxSnack={3}>
+            <Router>
+              <AppRoutes />
+              <Notifications />
+            </Router>
+          </SnackbarProvider>
+        </ThemeProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ErrorBoundary>
+=======
     <Router>
       <div className="app">
         <header className="header">
@@ -33,6 +52,7 @@ function App() {
         </footer>
       </div>
     </Router>
+>>>>>>> 95ddde555ae5454b57a3805ddf9237cc51dea0a1
   );
 }
 
