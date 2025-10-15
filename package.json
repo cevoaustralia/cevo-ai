@@ -21,7 +21,6 @@
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.9.3",
     "react-scripts": "5.0.1"
->>>>>>> 95ddde555ae5454b57a3805ddf9237cc51dea0a1
   },
   "scripts": {
     "start": "react-scripts start",
