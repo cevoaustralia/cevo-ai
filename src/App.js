@@ -12,22 +12,6 @@ import { queryClient } from './lib/queryClient';
 
 function App() {
   return (
-<<<<<<< HEAD
-    <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={lightTheme}>
-          <CssBaseline />
-          <SnackbarProvider maxSnack={3}>
-            <Router>
-              <AppRoutes />
-              <Notifications />
-            </Router>
-          </SnackbarProvider>
-        </ThemeProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </ErrorBoundary>
-=======
     <Router>
       <div className="app">
         <header className="header">
@@ -52,7 +36,6 @@ function App() {
         </footer>
       </div>
     </Router>
->>>>>>> 95ddde555ae5454b57a3805ddf9237cc51dea0a1
   );
 }
 
