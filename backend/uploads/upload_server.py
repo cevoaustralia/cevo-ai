@@ -40,5 +40,16 @@ def delete_file(domain, filename):
         return jsonify({'message': 'File deleted successfully'})
     return jsonify({'error': 'File not found'}), 404
 
+@app.route('/files/<domain>', methods=['DELETE'])
+def clear_domain_files(domain):
+    domain_folder = os.path.join(UPLOAD_FOLDER, domain)
+    if os.path.exists(domain_folder):
+        for filename in os.listdir(domain_folder):
+            file_path = os.path.join(domain_folder, filename)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+        return jsonify({'message': f'All files cleared for {domain}'})
+    return jsonify({'message': f'No files found for {domain}'}), 200
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

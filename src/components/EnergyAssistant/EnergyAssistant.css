@@ -1,0 +1,61 @@
+.energy-container {
+  height: auto !important;
+  min-height: auto !important;
+}
+
+.energy-container .chat-box {
+  height: auto !important;
+  min-height: fit-content !important;
+  max-height: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 400px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.file-icon {
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+}
+
+.file-icon:hover {
+  background: #e0e0e0;
+}
+
+.selected-files-preview {
+  margin-top: 10px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+.file-item {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+.file-item:last-child {
+  margin-bottom: 0;
+}

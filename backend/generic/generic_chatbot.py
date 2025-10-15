@@ -16,123 +16,13 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Constants
-MAX_IMAGE_SIZE = 3.75 * 1024 * 1024  # 3.75 MB
-MAX_DOCUMENT_SIZE = 4.5 * 1024 * 1024  # 4.5 MB
-MAX_IMAGES = 20
-MAX_DOCUMENTS = 5
-
-class ContentType(Enum):
-    """Supported content types"""
-    IMAGE_JPEG = "image/jpeg"
-    IMAGE_PNG = "image/png"
-    IMAGE_GIF = "image/gif"
-    IMAGE_WEBP = "image/webp"
-    PDF = "application/pdf"
-    DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    CSV = "text/csv"
-    TXT = "text/plain"
-    HTML = "text/html"
-    MARKDOWN = "text/markdown"
-
-class FileProcessor:
-    """Handle file processing and content block creation"""
-    
-    IMAGE_TYPES = {
-        ContentType.IMAGE_JPEG, ContentType.IMAGE_PNG,
-        ContentType.IMAGE_GIF, ContentType.IMAGE_WEBP
-    }
-    
-    DOCUMENT_FORMAT_MAP = {
-        ".pdf": "pdf",
-        ".docx": "docx",
-        ".csv": "csv",
-        ".txt": "txt",
-        ".html": "html",
-        ".md": "md"
-    }
-    
-    @staticmethod
-    def validate_file_size(content: bytes, is_image: bool) -> None:
-        """Validate file size against Bedrock limits"""
-        max_size = MAX_IMAGE_SIZE if is_image else MAX_DOCUMENT_SIZE
-        if len(content) > max_size:
-            raise HTTPException(
-                status_code=400,
-                detail=f"File too large: {len(content)} bytes. Max: {max_size} bytes"
-            )
-    
-    @staticmethod
-    def get_document_format(filename: str, content_type: str) -> str:
-        """Determine document format from filename or content type"""
-        # Try filename extension first
-        for ext, fmt in FileProcessor.DOCUMENT_FORMAT_MAP.items():
-            if filename.lower().endswith(ext):
-                return fmt
-        
-        # Fallback to content type
-        if "pdf" in content_type:
-            return "pdf"
-        elif "word" in content_type:
-            return "docx"
-        elif "csv" in content_type:
-            return "csv"
-        elif "html" in content_type:
-            return "html"
-        
-        return "txt"  # Default fallback
-    
-    @classmethod
-    def create_content_block(cls, file: UploadFile, content: bytes) -> Dict[str, Any]:
-        """Create appropriate content block based on file type"""
-        content_type = file.content_type or ""
-        filename = file.filename or "unknown"
-        
-        # Handle images
-        if any(img_type.value in content_type for img_type in cls.IMAGE_TYPES):
-            cls.validate_file_size(content, is_image=True)
-            return {
-                "type": "image",
-                "source": {
-                    "type": "base64",
-                    "media_type": content_type,
-                    "data": base64.b64encode(content).decode("utf-8")
-                }
-            }
-        
-        # Handle documents
-        elif any(ext in filename.lower() for ext in cls.DOCUMENT_FORMAT_MAP.keys()) or \
-             "pdf" in content_type or "word" in content_type or "csv" in content_type:
-            cls.validate_file_size(content, is_image=False)
-            doc_format = cls.get_document_format(filename, content_type)
-            return {
-                "type": "document",
-                "document": {
-                    "format": doc_format,
-                    "name": filename,
-                    "source": {"bytes": content}
-                }
-            }
-        
-        # Unsupported type - try as text
-        else:
-            try:
-                text_content = content.decode('utf-8')
-                return {
-                    "type": "text",
-                    "text": f"[File: {filename}]\n{text_content[:1000]}"  # Limit length
-                }
-            except UnicodeDecodeError:
-                raise HTTPException(
-                    status_code=400,
-                    detail=f"Unsupported file type: {content_type}"
-                )
+from utils.file_processor import process_files
 
 
 # Initialize LLM with ChatBedrockConverse
 llm = ChatBedrockConverse(
-    model="us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-    region_name="ap-southeast-2",
+    model="us.anthropic.claude-sonnet-4-20250514-v1:0",
+    region_name="us-east-1",
 )
 
 # Use LangGraph's built-in checkpointer for state persistence
@@ -153,37 +43,7 @@ app.add_middleware(
 )
 
 
-async def process_files(files: Optional[List[UploadFile]]) -> List[Dict[str, Any]]:
-    """Process uploaded files and create content blocks"""
-    if not files:
-        return []
-    
-    content_blocks = []
-    image_count = 0
-    document_count = 0
-    
-    for file in files:
-        try:
-            content = await file.read()
-            content_block = FileProcessor.create_content_block(file, content)
-            
-            # Track counts for limits
-            if content_block["type"] == "image":
-                image_count += 1
-                if image_count > MAX_IMAGES:
-                    raise HTTPException(400, f"Too many images. Max: {MAX_IMAGES}")
-            elif content_block["type"] == "document":
-                document_count += 1
-                if document_count > MAX_DOCUMENTS:
-                    raise HTTPException(400, f"Too many documents. Max: {MAX_DOCUMENTS}")
-            
-            content_blocks.append(content_block)
-            
-        except Exception as e:
-            logger.error(f"Error processing file {file.filename}: {str(e)}")
-            raise HTTPException(400, f"Error processing {file.filename}: {str(e)}")
-    
-    return content_blocks
+
 
 
 @app.post("/threads/{thread_id}/runs/stream")
@@ -224,6 +84,7 @@ async def create_run_stream(
                             response_data = {
                                 "type": "assistant",
                                 "content": latest_message.content,
+                                "content_type": "markdown",
                                 "message_type": "chunk"
                             }
                             yield f"data: {json.dumps(response_data)}\n\n"
@@ -294,6 +155,9 @@ async def delete_thread(thread_id: str):
     # Note: MemorySaver doesn't have built-in delete, but you can implement
     # For production, use PostgresSaver or RedisSaver with delete support
     return {"status": "success", "message": f"Thread {thread_id} cleared"}
+
+
+
 
 
 if __name__ == "__main__":
