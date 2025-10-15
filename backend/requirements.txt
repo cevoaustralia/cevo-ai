@@ -6,3 +6,8 @@ langgraph
 python-multipart
 boto3
 requests
+psycopg2-binary
+pydantic
+pytest
+pytest-asyncio
+pytest-cov

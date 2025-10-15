@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: energy_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./backend/energy_data_model.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    ports:
+      - "2024:2024"
+    env_file:
+      - .env
+    environment:
+      - DB_HOST=postgres
+      - DB_NAME=energy_db
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+    depends_on:
+      - postgres
+
+  frontend:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

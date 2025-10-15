@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: energy_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./backend/energy_data_model.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.test
+    ports:
+      - "2024:2024"
+    environment:
+      - DB_HOST=postgres
+      - DB_NAME=energy_db
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+    depends_on:
+      - postgres

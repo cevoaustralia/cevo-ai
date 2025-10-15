@@ -1,24 +1,45 @@
-import requests
-import json
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from typing import Optional
+from mock_agents import MockEnergyAgentSystem
 
-def test_agent():
-    url = "http://localhost:2024/invoke"
-    
-    payload = {
-        "messages": [
-            {"type": "human", "content": "Hello, how are you?"}
-        ]
-    }
-    
-    response = requests.post(url, json=payload)
-    
-    if response.status_code == 200:
-        result = response.json()
-        print("Success!")
-        print("Response:", json.dumps(result, indent=2))
-    else:
-        print(f"Error: {response.status_code}")
-        print(response.reason)
+class ChatRequest(BaseModel):
+    query: str
+    customer_number: Optional[str] = None
+    address: Optional[str] = None
+
+app = FastAPI()
+agent_system = MockEnergyAgentSystem()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/health")
+async def health():
+    return {"status": "healthy"}
+
+@app.post("/chat")
+async def chat(request: ChatRequest):
+    try:
+        result = agent_system.process_query(
+            query=request.query,
+            customer_number=request.customer_number,
+            address=request.address
+        )
+        return result
+    except Exception as e:
+        return {
+            "response": f"Error processing request: {str(e)}",
+            "agent_used": "ERROR",
+            "reasoning": "System error occurred"
+        }
 
 if __name__ == "__main__":
-    test_agent()
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=2024)
