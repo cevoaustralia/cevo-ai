@@ -49,14 +49,6 @@ aws cloudformation create-stack \
 - **Application Load Balancer** - Traffic distribution
 - **Bedrock Claude 3.5** - AI agents
 
-## Testing
-
-Run backend tests:
-```bash
-cd backend
-python test_app.py
-```
-
 ## Sample Queries
 
 ### Current Customer:

@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
 
 const DRAWER_WIDTH = 280;
 
@@ -86,6 +87,7 @@ const AppLayout = ({ children }) => {
       >
         <Toolbar />
         <Box sx={{ flexGrow: 1, p: 3, backgroundColor: 'background.default' }}>
+          <Breadcrumb />
           {children}
         </Box>
       </Box>

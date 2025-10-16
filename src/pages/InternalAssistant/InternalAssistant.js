@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import EnergyAssistant from '../../components/EnergyAssistant';
 import Finance from '../../components/Finance';
 
@@ -12,16 +12,8 @@ function InternalAssistantPage() {
   };
 
   return (
-    <div className="main-container">
-      <nav className="sidebar">
-        <ul>
-          <li><Link to="/internal_assistant/energy">Energy</Link></li>
-          <li><Link to="/internal_assistant/finance">Finance</Link></li>
-        </ul>
-      </nav>
-      <main className="content">
-        {renderContent()}
-      </main>
+    <div>
+      {renderContent()}
     </div>
   );
 }

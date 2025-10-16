@@ -22,7 +22,7 @@ const Dashboard = () => {
       title: 'Energy Assistant',
       description: 'Chat with our AI assistant for energy queries',
       icon: <ElectricBolt sx={{ fontSize: 40, color: 'primary.main' }} />,
-      action: () => navigate('/energy'),
+      action: () => navigate('/internal_assistant/energy'),
     },
     {
       title: 'Analytics',

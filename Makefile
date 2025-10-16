@@ -1,4 +1,4 @@
-.PHONY: help build up down test test-unit test-functional test-integration clean logs install-deps run test-env restart restart-frontend rebuild-frontend
+.PHONY: help build up down clean logs run restart restart-frontend rebuild-frontend
 
 help:
 	@echo "Energy Retailer Chatbot - Local Development"
@@ -7,10 +7,6 @@ help:
 	@echo "  build     - Build Docker images"
 	@echo "  up        - Start all services"
 	@echo "  down      - Stop all services"
-	@echo "  test      - Run all tests"
-	@echo "  test-unit - Run unit tests only"
-	@echo "  test-func - Run functional tests only"
-	@echo "  test-int  - Run integration tests only"
 	@echo "  logs      - Show service logs"
 	@echo "  clean     - Clean up containers and volumes"
 	@echo "  run       - Alias for up"
@@ -41,32 +37,22 @@ up:
 down:
 	docker-compose down
 
-test: test-env install-deps
-	@echo "Waiting for services to be ready..."
-	@sleep 10
-	cd backend && python -m pytest tests/ -v
-
-test-unit: install-deps
-	cd backend && python -m pytest tests/test_unit.py -v
-
-test-func: test-env install-deps
-	@sleep 10
-	cd backend && python -m pytest tests/test_functional.py -v
-
-test-int: test-env install-deps
-	@sleep 15
-	cd backend && python -m pytest tests/test_integration.py -v
-
 logs:
 	docker-compose logs -f
 
-install-deps:
-	@echo "Installing Python dependencies..."
-	pip install -r backend/requirements.txt
+restart:
+	docker-compose restart
 
-test-env:
-	@echo "Starting test environment..."
-	docker-compose -f docker-compose.test.yml up -d
+restart-frontend:
+	docker-compose restart frontend
+
+rebuild-frontend:
+	@echo "Rebuilding frontend container..."
+	docker-compose build --no-cache frontend
+	docker-compose up -d frontend
+
+logs:
+	docker-compose logs -f
 
 restart:
 	docker-compose restart
@@ -83,5 +69,4 @@ run: up
 
 clean:
 	docker-compose down -v
-	docker-compose -f docker-compose.test.yml down -v
 	docker system prune -f

@@ -53,12 +53,6 @@ make clean         # Clean up containers and volumes
 # Frontend specific
 make restart-frontend   # Restart frontend only
 make rebuild-frontend   # Rebuild and restart frontend
-
-# Testing
-make test          # Run all tests
-make test-unit     # Unit tests only
-make test-func     # Functional tests only
-make test-int      # Integration tests only
 ```
 
 ## Architecture
