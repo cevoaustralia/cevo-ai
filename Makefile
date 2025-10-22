@@ -51,20 +51,6 @@ rebuild-frontend:
 	docker-compose build --no-cache frontend
 	docker-compose up -d frontend
 
-logs:
-	docker-compose logs -f
-
-restart:
-	docker-compose restart
-
-restart-frontend:
-	docker-compose restart frontend
-
-rebuild-frontend:
-	@echo "Rebuilding frontend container..."
-	docker-compose build --no-cache frontend
-	docker-compose up -d frontend
-
 run: up
 
 clean:
