@@ -3,5 +3,5 @@ uvicorn==0.32.1
 python-multipart==0.0.20
 langgraph==0.2.60
 typing-extensions==4.12.2
-langchain-core==0.3.29
+langchain-core==0.3.81
 langchain-aws==0.2.8
