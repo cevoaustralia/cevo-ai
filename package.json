@@ -5,7 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@langchain/core": "^0.3.78",
+    "@langchain/core": "^1.1.19",
     "@langchain/langgraph-sdk": "^0.1.9",
     "@mui/icons-material": "^7.3.4",
     "@mui/material": "^7.3.4",
